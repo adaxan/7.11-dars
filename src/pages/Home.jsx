@@ -5,13 +5,11 @@ import { addTask, updateTask } from "../store/articlesSlice";
 function Home() {
   const taskRef = useRef();
   const descRef = useRef();
-
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.tasks.tasks);
-
   const [editMode, setEditMode] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
-  const [newComments, setNewComments] = useState({});
+  const [Comments, setComments] = useState({});
 
   function handleAdd(e) {
     e.preventDefault();
@@ -47,7 +45,7 @@ function Home() {
   }
 
   function handleAddComment(taskIndex) {
-    const comment = newComments[taskIndex]?.trim();
+    const comment = Comments[taskIndex]?.trim();
     if (!comment) {
       alert("Izoh bo'sh bo'lishi mumkin emas!");
       return;
@@ -58,21 +56,21 @@ function Home() {
 
     dispatch(updateTask({ index: taskIndex, updatedTask }));
 
-    setNewComments((prevState) => ({
+    setComments((prevState) => ({
       ...prevState,
       [taskIndex]: "",
     }));
   }
 
   function handleCommentChange(taskIndex, value) {
-    setNewComments((prevState) => ({
+    setComments((prevState) => ({
       ...prevState,
       [taskIndex]: value,
     }));
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+    <div className="container mx-auto min-h-screen flex flex-col items-center justify-center bg-gray-100">
       <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg mb-6">
         <h1 className="text-2xl font-bold text-gray-700 text-center mb-4">
           {editMode ? "Update Task" : "Add Task"}
@@ -122,7 +120,7 @@ function Home() {
               <div className="mt-4">
                 <input
                   type="text"
-                  value={newComments[index] || ""}
+                  value={Comments[index] || ""}
                   onChange={(e) => handleCommentChange(index, e.target.value)}
                   placeholder="Add a comment..."
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"

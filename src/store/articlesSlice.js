@@ -13,8 +13,11 @@ const articlesSlice = createSlice({
             const { index, updatedTask } = action.payload;
             state.tasks[index] = updatedTask; 
         },
+        removeTask: (state, action) => {
+            state.tasks.splice(action.payload, 1);
+        }
     },
 });
 
-export const { addTask , updateTask} = articlesSlice.actions;
+export const { addTask , updateTask, removeTask} = articlesSlice.actions;
 export default articlesSlice.reducer;

@@ -169,6 +169,7 @@ function Register() {
           <div className="flex flex-col gap-4">
             <button
               type="submit"
+              disabled={loading}
               onClick={handRegister}
               className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
             >

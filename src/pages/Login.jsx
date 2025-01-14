@@ -22,7 +22,7 @@ function Login() {
       passwordRef.current.style.outlineColor = "red";
       return false;
     }
-    
+
     return true;
   }
 
@@ -32,28 +32,28 @@ function Login() {
     if (!isValid) {
       return;
     }
-
     const user = {
       username: usernameRef.current.value,
       password: passwordRef.current.value,
     };
     setLoading(true);
-
     axios
       .post("https://auth-rg69.onrender.com/api/auth/signin", user, {
         headers: {
-          "Content-type": "application/json",
+          "Content-type": "application/json", 
         },
       })
       .then((response) => {
         if (response.data.id) {
+          localStorage.setItem("user", JSON.stringify(response.data));
+          localStorage.setItem("token", response.data.accessToken);
           navigate("/");
           usernameRef.current.value = "";
           passwordRef.current.value = "";
         }
         if (
-          response.data.message === "User Not found." ||
-          response.data.message === "Invalid Password!"
+          response.data.message == "User Not found." ||
+          response.data.message == "Invalid Password!"
         ) {
           alert(response.data.message);
         }
@@ -62,9 +62,9 @@ function Login() {
         console.error("Login failed:", error);
         alert("An error occurred during login. Please try again.");
       })
-        .finally(() => {
-            setLoading(false);
-        });
+      .finally(() => {
+        setLoading(false);
+      });
   }
 
   function handGoRegister(event) {
@@ -113,11 +113,12 @@ function Login() {
           </div>
           <div className="flex items-center justify-between gap-4">
             <button
+            disabled={loading}
               type="submit"
               onClick={handRegister}
               className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
-                {loading ? "Logging in..." : "Login"}
+              {loading ? "Logging in..." : "Login"}
             </button>
           </div>
           <div className="mt-4 text-center">
